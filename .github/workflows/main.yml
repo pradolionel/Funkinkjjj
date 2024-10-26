@@ -9,7 +9,7 @@ jobs:
       - name: install haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.4
+          haxe-version: 4.3.6
       - name: install library
         run: |
           haxelib install hxcpp
@@ -32,67 +32,3 @@ jobs:
         with:
           name: buildwindows
           path: export/release/windows/bin
-  buildlinux:
-    runs-on: [ubuntu-latest]
-    steps:
-      - name: checkout
-        uses: actions/checkout@main
-      - name: install haxe
-        uses: krdlab/setup-haxe@master
-        with:
-          haxe-version: 4.3.4
-      - name: install library
-        run: |
-          sudo apt-get install libvlc-dev
-          sudo apt-get install libvlccore-dev
-          haxelib install hxcpp
-          haxelib install hxnodejs
-          haxelib install lime
-          haxelib install openfl
-          haxelib install flixel 4.11.0
-          haxelib install hscript
-          haxelib install flixel-ui
-          haxelib install flixel-addons 2.11.0
-          haxelib install newgrounds 1.3.0
-          haxelib git faxe https://github.com/ashea-code/faxe
-          haxelib install polymod 1.3.1
-      - name: add APIStuff
-        run: echo "package;class APIStuff{public static var API:String = '';public static var EncKey:String = '';}" > source/APIStuff.hx
-      - name: compile
-        run: haxelib run lime build linux
-      - name: upload artifact
-        uses: actions/upload-artifact@main
-        with:
-          name: buildlinux
-          path: export/release/linux/bin
-  buildmacos:
-    runs-on: [macos-12]
-    steps:
-      - name: checkout
-        uses: actions/checkout@main
-      - name: install haxe
-        uses: krdlab/setup-haxe@master
-        with:
-          haxe-version: 4.3.4
-      - name: install library
-        run: |
-          haxelib install hxcpp
-          haxelib install hxnodejs
-          haxelib install lime
-          haxelib install openfl
-          haxelib install flixel 4.11.0
-          haxelib install hscript
-          haxelib install flixel-ui
-          haxelib install flixel-addons 2.11.0
-          haxelib install newgrounds 1.3.0
-          haxelib git faxe https://github.com/ashea-code/faxe
-          haxelib install polymod 1.3.1
-      - name: add APIStuff
-        run: echo "package;class APIStuff{public static var API:String = '';public static var EncKey:String = '';}" > source/APIStuff.hx
-      - name: compile
-        run: haxelib run lime build mac
-      - name: upload artifact
-        uses: actions/upload-artifact@main
-        with:
-          name: buildmacos        
-          path: export/release/macos/bin
